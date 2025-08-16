@@ -55,3 +55,32 @@ function actualizarListaAmigos() {
         lista.appendChild(li);
     });
 }
+// Función para sortear un amigo secreto
+function sortearAmigo() {
+    // Validar que haya al menos 2 amigos para sortear
+    if (amigos.length < 2) {
+        mostrarAlerta('Debe añadir al menos 2 amigos para realizar el sorteo.');
+        return;
+    }
+    
+    // Añadir efecto de carga al botón
+    const btnSortear = document.querySelector('.button-draw');
+    btnSortear.classList.add('sorteo-loading');
+    btnSortear.disabled = true;
+    btnSortear.innerHTML = '<img src="assets/play_circle_outline.png" alt="Ícono para sortear"> Sorteando...';
+    
+    // Simular tiempo de sorteo para crear suspenso
+    setTimeout(() => {
+        // Generar índice aleatorio
+        const indiceAleatorio = Math.floor(Math.random() * amigos.length);
+        const amigoSorteado = amigos[indiceAleatorio];
+        
+        // Mostrar resultado
+        mostrarResultado(amigoSorteado);
+        
+        // Restaurar botón
+        btnSortear.classList.remove('sorteo-loading');
+        btnSortear.disabled = false;
+        btnSortear.innerHTML = '<img src="assets/play_circle_outline.png" alt="Ícono para sortear"> Sortear amigo';
+    }, 1500);
+}
