@@ -84,3 +84,82 @@ function sortearAmigo() {
         btnSortear.innerHTML = '<img src="assets/play_circle_outline.png" alt="Ícono para sortear"> Sortear amigo';
     }, 1500);
 }
+
+// Función para mostrar el resultado del sorteo
+function mostrarResultado(nombre) {
+    const resultadoLista = document.getElementById('resultado');
+    
+    resultadoLista.innerHTML = `
+        <li>
+            ¡El amigo secreto sorteado es: <strong>${nombre}</strong>!
+        </li>
+    `;
+    
+    // Scroll suave hacia el resultado
+    resultadoLista.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'center'
+    });
+}
+
+// Función para limpiar el resultado
+function limpiarResultado() {
+    const resultadoLista = document.getElementById('resultado');
+    resultadoLista.innerHTML = '';
+}
+
+// Función para mostrar el modal de alerta
+function mostrarAlerta(mensaje) {
+    const modal = document.getElementById('modal');
+    const modalText = document.getElementById('modal-text');
+    
+    modalText.textContent = mensaje;
+    modal.style.display = 'block';
+    
+    // Enfocar el botón OK para mejor accesibilidad
+    setTimeout(() => {
+        document.querySelector('.modal-btn').focus();
+    }, 100);
+}
+
+// Función para cerrar el modal
+function cerrarModal() {
+    const modal = document.getElementById('modal');
+    modal.style.display = 'none';
+    
+    // Devolver el foco al input
+    document.getElementById('amigo').focus();
+}
+
+// Event listeners para mejorar la experiencia del usuario
+document.addEventListener('DOMContentLoaded', function() {
+    const inputAmigo = document.getElementById('amigo');
+    
+    // Permitir agregar amigos presionando Enter
+    inputAmigo.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            agregarAmigo();
+        }
+    });
+    
+    // Enfocar el input al cargar la página
+    inputAmigo.focus();
+    
+    // Cerrar modal con Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            cerrarModal();
+        }
+    });
+    
+    // Cerrar modal haciendo clic fuera de él
+    window.addEventListener('click', function(e) {
+        const modal = document.getElementById('modal');
+        if (e.target === modal) {
+            cerrarModal();
+        }
+    });
+    
+    // Inicializar la lista vacía
+    actualizarListaAmigos();
+});
